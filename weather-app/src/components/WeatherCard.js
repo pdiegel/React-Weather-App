@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
+import { GetWeatherData } from '../helpers/WeatherFinder';
 
-export default function WeatherCard({ lat, long, time }) {
+export default function WeatherCard({ lat, long }) {
     // This component will display the weather for a given location and time
     // It will take in the latitude and longitude of the location
     // It will also take in the time of the weather
@@ -12,27 +13,12 @@ export default function WeatherCard({ lat, long, time }) {
 
 
     useEffect(() => {
-        fetch(`https://api.weather.gov/points/${lat},${long}`, {
-            headers: {
-                'User-Agent': 'pdiegel-weather-app'
-            }
-        }).then(res => res.json())
-            .then(data => {
-                const location = data?.properties?.relativeLocation?.properties
-                setLocation(location);
-                console.log(`Location: ${location?.city}, ${location?.state}`);
-                fetch(data?.properties?.forecast)
-                    .then(res => res.json())
-                    .then(data => {
-                        const weatherArray = data?.properties?.periods;
-                        console.log(weatherArray);
-                        setWeather(weatherArray);
-
-                        console.log(data);
-                    })
-                    .catch(err => console.log(err));
+        GetWeatherData(lat, long)
+            .then(weatherData => {
+                console.log(weatherData);
+                setWeather(weatherData);
             })
-            .catch(err => console.log(err));
+            .catch(err => console.log(`Error getting weather data ${err}`));
 
     }, [lat, long]);
 
