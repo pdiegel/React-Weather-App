@@ -7,7 +7,8 @@ async function GetLatLon(location) {
             return res.data[0];
         })
         .then(data => {
-            return [data.lat, data.lon];
+            console.log(`New Location: ${data.lat}, ${data.lon}`);
+            return { latitude: data.lat, longitude: data.lon };
         })
         .catch(err => {
             console.log(err);
@@ -35,7 +36,8 @@ async function GetWeatherData(lat, long) {
         // Fetch forecast data
         const forecastRes = await axios.get(data?.properties?.forecast, { headers: { "User-Agent": "weather-app" } });
         const weather = forecastRes?.data?.properties?.periods[0];
-        console.log(`Current Weather: ${weather}`);
+        console.log(`Current Weather: `);
+        console.log(weather);
         //console.log(`Weather Forecast Data: ${forecastRes}`);
         return {
             location: `${location?.city}, ${location?.state}`,

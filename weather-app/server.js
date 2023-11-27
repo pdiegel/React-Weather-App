@@ -17,6 +17,11 @@ app.get('/weather', async (req, res) => {
     res.status(200).send(response);
 });
 
+app.get('/location', async (req, res) => {
+    const response = await WeatherFinder.GetLatLon(req.query.q);
+    res.status(200).send(response);
+});
+
 app.listen(port, () => {
     console.log(`Example app listening at http://localhost:${port}`);
 });
