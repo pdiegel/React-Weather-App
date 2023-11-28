@@ -1,23 +1,47 @@
-import { useState, useEffect } from 'react';
-import { GetWeatherData } from '../helpers/WeatherFinder';
+import './WeatherCard.css';
+import { FindClosestData, ConvertTemperature } from '../helpers/WeatherFinder';
+
+const WEATHER_DIRECTIONS = {
+    "N": "⬆",
+    "NNE": "⬈",
+    "NE": "⬈",
+    "ENE": "⬈",
+    "E": "➡",
+    "ESE": "⬊",
+    "SE": "⬊",
+    "SSE": "⬊",
+    "S": "⬇",
+    "SSW": "⬋",
+    "SW": "⬋",
+    "WSW": "⬋",
+    "W": "⬅",
+    "WNW": "⬉",
+    "NW": "⬉",
+    "NNW": "⬉",
+}
 
 export default function WeatherCard({ weather }) {
-    // This component will display the weather for a given location and time
-    // It will take in the latitude and longitude of the location
-    // It will also take in the time of the weather
+    if (!weather || !weather.weather) {
+        return (<div></div>);
+    }
 
-    // The weather will be fetched from the National Weather Service API
-    return weather && weather.weather ? (
+    const weatherData = weather.weather;
+    const weatherForecast = weather.forecast;
+    console.log("Weather Forecast:");
+    console.log(weatherForecast);
+    const minTemperature = ConvertTemperature(FindClosestData(weatherData?.minTemperature?.values).value, "F");
+    const maxTemperature = ConvertTemperature(FindClosestData(weatherData?.maxTemperature?.values).value, "F");
+
+    return (
         <div className="weather-card">
-            <h2>{weather.location}</h2>
-            <h2>{weather.weather.name}</h2>
-            <h3>{weather.weather.temperature} {weather.temperatureUnit}</h3>
-            <h3>{weather.weather.shortForecast}</h3>
-            <h3>{weather.weather.windSpeed}</h3>
-            <h3>{weather.weather.windDirection}</h3>
-            <h3>{weather.weather.detailedForecast}</h3>
+            <h2 >{weather.location}</h2>
+            <h3 className="temperature" id={`${weatherForecast.temperatureTrend}`}>{weatherForecast.temperature}° F</h3>
+            <p>Min: {minTemperature}°<br />Max: {maxTemperature}°</p>
+            <h3>{weatherForecast.name}</h3>
+            <p>Wind: {weatherForecast.windSpeed} {WEATHER_DIRECTIONS[weatherForecast.windDirection]}</p>
+            <p>{weatherForecast.detailedForecast}</p>
         </div>
-    ) : (<div></div>);
+    );
 
 
 

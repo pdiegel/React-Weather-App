@@ -1,40 +1,43 @@
-.App {
-    text-align: center;
-}
-
-.App-logo {
-    height: 40vmin;
-    pointer-events: none;
-}
-
-@media (prefers-reduced-motion: no-preference) {
-    .App-logo {
-        animation: App-logo-spin infinite 20s linear;
-    }
-}
-
-.App-link {
-    color: #61dafb;
+* {
+    font-family: 'Nunito', sans-serif;
+    font-family: 'Rubik', sans-serif;
+    font-weight: 400;
 }
 
 main {
     background-size: cover;
     background-repeat: no-repeat;
     min-height: 100vh;
-    color: #FFF;
+    color: #333;
+    padding: 20px;
 }
 
-main h2,
-main h3 {
-    text-shadow: 2px 2px 4px #000;
+.weather-search {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
 }
 
-@keyframes App-logo-spin {
-    from {
-        transform: rotate(0deg);
-    }
+.weather-search label {
+    font-size: 1.25rem;
+    text-shadow: 2px 2px 5px rgba(255, 255, 255, 0.5);
+}
 
-    to {
-        transform: rotate(360deg);
-    }
+.weather-search input,
+.weather-search button {
+    padding: 5px 10px;
+    border: none;
+    border-radius: 3px;
+
+}
+
+.weather-search input {
+    margin: 5px 0;
+}
+
+.weather-search button {
+    margin-bottom: 10px;
+    background-color: lightblue;
+    color: #333;
+    cursor: pointer;
 }

@@ -2,12 +2,15 @@ import './App.css';
 import WeatherCard from './components/WeatherCard';
 import { useState, useEffect } from 'react';
 import PartlyCloudyImg from './weather-backgrounds/partly-cloudy.gif';
+import MostlyCloudyImg from './weather-backgrounds/mostly-cloudy.gif';
 import HeavyRainImg from './weather-backgrounds/heavy-rain.gif';
+import SunnyImg from './weather-backgrounds/sunny.gif';
 
 const WEATHER_BACKGROUNDS = {
     "Partly Cloudy": PartlyCloudyImg,
-    "Mostly Cloudy": PartlyCloudyImg,
+    "Mostly Cloudy": MostlyCloudyImg,
     "Heavy Rain": HeavyRainImg,
+    "Sunny": SunnyImg,
 }
 
 function App() {
@@ -42,6 +45,10 @@ function App() {
 
     const UpdateWeather = () => {
         const location = document.getElementById("location").value;
+        if (!location.trim()) {
+            console.log("No location provided!");
+            return;
+        }
         fetch(`http://localhost:3001/location?q=${location}`)
             .then(res => res.json())
             .then(data => {
@@ -64,11 +71,13 @@ function App() {
             <header className="App-header">
 
             </header>
-            <main style={{ backgroundImage: weather && weather.weather && weather.weather.shortForecast ? `url(${WEATHER_BACKGROUNDS[weather.weather.shortForecast]})` : '' }}>
-                <label htmlFor="location">Enter a location</label>
-                <input type="text" placeholder="Enter a location" id="location" />
-                <button onClick={() => { UpdateWeather() }}>Get Weather</button>
-                <h2>{userPosition.latitude}, {userPosition.longitude}</h2>
+            <main style={{ backgroundImage: weather && weather.forecast && weather.forecast.shortForecast ? `url(${WEATHER_BACKGROUNDS[weather.forecast.shortForecast]})` : '' }}>
+                <div className="weather-search">
+                    <label htmlFor="location">Enter a location:<br /></label>
+                    <input type="text" id="location" />
+                    <button onClick={() => UpdateWeather()}>Get Weather</button>
+                </div>
+                {/* <h2>{userPosition.latitude}, {userPosition.longitude}</h2> */}
                 <WeatherCard weather={weather} />
             </main>
         </div >
