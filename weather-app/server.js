@@ -13,6 +13,14 @@ app.get('/', (req, res) => {
 );
 
 app.get('/weather', async (req, res) => {
+    if (!req.query.lat || !req.query.long) {
+        console.log("No latitude or longitude provided!");
+        return;
+    }
+    else if (req.query.lat < 1 && req.query.long < 1) {
+        console.log("Invalid latitude or longitude provided!");
+        return;
+    }
     const response = await WeatherFinder.GetWeatherData(req.query.lat, req.query.long);
     res.status(200).send(response);
 });

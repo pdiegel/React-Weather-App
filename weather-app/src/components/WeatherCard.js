@@ -7,7 +7,7 @@ export default function WeatherCard({ weather }) {
     // It will also take in the time of the weather
 
     // The weather will be fetched from the National Weather Service API
-    return (
+    return weather && weather.weather ? (
         <div className="weather-card">
             <h2>{weather.location}</h2>
             <h2>{weather.weather.name}</h2>
@@ -17,7 +17,7 @@ export default function WeatherCard({ weather }) {
             <h3>{weather.weather.windDirection}</h3>
             <h3>{weather.weather.detailedForecast}</h3>
         </div>
-    );
+    ) : (<div></div>);
 
 
 

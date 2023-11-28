@@ -30,9 +30,11 @@ function App() {
         fetch(`http://localhost:3001/weather?lat=${userPosition.latitude}&long=${userPosition.longitude}`)
             .then(res => res.json())
             .then(data => {
+                console.log(data);
                 setWeather(data);
             })
             .catch(err => {
+                console.log("Error retrieving weather data!");
                 console.log(err);
             });
     }, [userPosition]);
@@ -62,7 +64,7 @@ function App() {
             <header className="App-header">
 
             </header>
-            <main style={{ backgroundImage: `url(${WEATHER_BACKGROUNDS[weather.weather.shortForecast]})` }}>
+            <main style={{ backgroundImage: weather && weather.weather && weather.weather.shortForecast ? `url(${WEATHER_BACKGROUNDS[weather.weather.shortForecast]})` : '' }}>
                 <label htmlFor="location">Enter a location</label>
                 <input type="text" placeholder="Enter a location" id="location" />
                 <button onClick={() => { UpdateWeather() }}>Get Weather</button>
