@@ -1,5 +1,5 @@
 const express = require('express');
-const axios = require('axios');
+const path = require('path');
 const cors = require('cors');
 const app = express();
 const port = process.env.PORT || 3001;
@@ -7,6 +7,8 @@ const WeatherFinder = require('./src/helpers/WeatherFinder');
 const logger = require('heroku-logger');
 
 app.use(cors());
+
+app.use(express.static(path.join(__dirname, 'build')));
 
 app.get('/', (req, res) => {
     res.send('Hello World!');
