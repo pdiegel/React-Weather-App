@@ -18,12 +18,16 @@
     font-size: 0.8rem;
 }
 
-.weather-forecast-card .forecast-timeframe {
+.weather-forecast-card .forecast-day {
     font-size: 1.2rem;
 }
 
-.weather-forecast-card .forecast-temperature {
+.weather-forecast-card .forecast-temperature-high {
     font-size: 1.5rem;
+}
+
+.weather-forecast-card .forecast-temperature-low {
+    font-size: 1.2rem;
 }
 
 

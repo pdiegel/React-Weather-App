@@ -35,7 +35,7 @@ export default function WeatherCard({ weather }) {
         <div className="weather-card">
             <h2 >{weather.location}</h2>
             <h3 className="temperature" id={`${weatherForecast.temperatureTrend}`}>{currentTemperature}° F</h3>
-            <p>Low: {minTemperature}° <br /> High: {maxTemperature}°</p>
+            <p>High: {maxTemperature}° <br /> Low: {minTemperature}°</p>
             <h3>{weatherForecast.name}</h3>
             <p>Wind: {weatherForecast.windSpeed} <span className='wind'>{WEATHER_DIRECTIONS[weatherForecast.windDirection]}</span></p>
             <p>{weatherForecast.detailedForecast}</p>

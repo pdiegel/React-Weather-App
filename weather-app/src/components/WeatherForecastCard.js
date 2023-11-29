@@ -1,21 +1,35 @@
 import './WeatherForecastCard.css';
 
+const WEEKDAYS = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
+
 export default function WeatherForecastCard({ weatherForecast }) {
     if (!weatherForecast) {
         return (<div></div>);
     }
 
-    const chanceToRain = weatherForecast.probabilityOfPrecipitation.value;
-    const timeFrame = weatherForecast.name;
+    console.log("new weather forecast card:");
+    console.log(weatherForecast);
+
+    const earlyForecast = weatherForecast[0];
+    const nightForecast = weatherForecast[1];
+
+    const today = new Date().getDay();
+    const chanceToRain = earlyForecast.probabilityOfPrecipitation.value;
+    const forecastTimeframe = earlyForecast.name;
+    const day = forecastTimeframe === "Today" ? WEEKDAYS[today] : forecastTimeframe
+
+
 
     return (
         <div className="weather-forecast-card">
-            <p className='forecast-timeframe'>{timeFrame}</p>
-            <img src={`${weatherForecast.icon}`} alt={`${weatherForecast.shortForecast}-icon`} />
+            <p className='forecast-day'>{day}</p>
+            <img src={`${earlyForecast.icon}`} alt={`${earlyForecast.shortForecast}-icon`} />
             <p>
-                {weatherForecast.shortForecast}
+                {earlyForecast.shortForecast}
                 <br />
-                <span className='forecast-temperature'>{weatherForecast.temperature}° F</span>
+                <span className='forecast-temperature-high'>{earlyForecast.temperature}°</span>
+                <br />
+                <span className='forecast-temperature-low'>{nightForecast.temperature}°</span>
                 <br />
                 Rain Chance: {chanceToRain ? chanceToRain : '0'}%
             </p>
