@@ -1,22 +1,13 @@
-.weather-card,
-.weather-search {
-    background-color: rgba(255, 255, 255, 0.3);
-    border-radius: 5px;
-    box-shadow: 0 0 5px rgba(0, 0, 0, 0.3);
+.weather-card {
     max-width: 100%;
-    margin: 20px auto;
-    text-align: left;
+    margin: 40px auto;
     padding: 10px 20px;
-    color: #333;
-    background-repeat: no-repeat;
-    background-size: cover;
 }
 
 .weather-card h2,
 .weather-card h3,
 .weather-card p {
     margin: 10px 0;
-    text-shadow: 2px 2px 4px rgba(255, 255, 255, 0.5);
 }
 
 .temperature {

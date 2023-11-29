@@ -4,24 +4,40 @@
     font-weight: 400;
 }
 
+h2 {
+    margin: 10px 0;
+}
+
 main {
     background-size: cover;
     background-repeat: no-repeat;
     background-position: center;
     min-height: 100vh;
-    color: #333;
     padding: 20px;
 }
 
-.weather-search {
+div,
+main {
+    background-color: rgba(255, 255, 255, 0.3);
+    border-radius: 5px;
+    box-shadow: 0 0 5px rgba(0, 0, 0, 0.3);
+    color: #333;
+}
+
+.weather-search,
+.weather-forecasts-12h {
+    padding: 10px 20px;
     display: flex;
+    flex-wrap: wrap;
+}
+
+.weather-search {
     flex-direction: column;
     justify-content: center;
 }
 
 .weather-search label {
     font-size: 1.25rem;
-    text-shadow: 2px 2px 5px rgba(255, 255, 255, 0.5);
 }
 
 .weather-search input,
@@ -38,17 +54,19 @@ main {
 
 .weather-search button {
     margin-bottom: 10px;
-    background-color: lightblue;
+    background-color: rgba(255, 255, 255, 0.9);
+    box-shadow: inset 0 0 5px rgba(0, 0, 0, 0);
     color: #333;
     cursor: pointer;
+    transition: box-shadow 0.1s, background-color 0.1s;
+}
+
+.weather-search button:hover {
+    background-color: rgba(255, 255, 255, 0.7);
+    box-shadow: inset 0 0 2px rgba(0, 0, 0, 0.8);
 }
 
 .weather-forecasts-12h {
-    display: flex;
-    flex-wrap: wrap;
     justify-content: space-between;
-    background-color: rgba(255, 255, 255, 0.3);
     border-radius: 5px;
-    box-shadow: 0 0 5px rgba(0, 0, 0, 0.3);
-    padding: 10px 20px;
 }

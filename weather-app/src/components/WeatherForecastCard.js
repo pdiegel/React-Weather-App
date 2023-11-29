@@ -16,7 +16,9 @@ export default function WeatherForecastCard({ weatherForecast }) {
     const today = new Date().getDay();
     const chanceToRain = earlyForecast.probabilityOfPrecipitation.value;
     const forecastTimeframe = earlyForecast.name;
-    const day = forecastTimeframe === "Today" ? WEEKDAYS[today] : forecastTimeframe
+
+    // Ensure the forecast timeframe is a weekday (not "Today" or "Tonight", etc.)
+    const day = WEEKDAYS.includes(forecastTimeframe) ? forecastTimeframe : WEEKDAYS[today]
 
 
 
@@ -27,9 +29,9 @@ export default function WeatherForecastCard({ weatherForecast }) {
             <p>
                 {earlyForecast.shortForecast}
                 <br />
-                <span className='forecast-temperature-high'>{earlyForecast.temperature}°</span>
+                <span className='forecast-temperature-high'>H: {earlyForecast.temperature}°</span>
                 <br />
-                <span className='forecast-temperature-low'>{nightForecast.temperature}°</span>
+                <span className='forecast-temperature-low'>L: {nightForecast.temperature}°</span>
                 <br />
                 Rain Chance: {chanceToRain ? chanceToRain : '0'}%
             </p>
