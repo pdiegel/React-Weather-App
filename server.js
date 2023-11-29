@@ -32,10 +32,12 @@ app.get('/weather', async (req, res) => {
             }
 
             const data = await WeatherFinder.GetWeatherData(req.query.lat, req.query.long);
+            console.log(`Attempt number ${numTries + 1} succeeded!`)
             return data;
         } catch (error) {
             if (numTries < maxRetries) {
                 numTries++;
+                console.log(`Attempt number ${numTries} failed!`)
                 return fetchData(); // Retry the request
             } else {
                 throw error; // Maximum retries reached, throw the error
