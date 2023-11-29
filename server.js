@@ -32,6 +32,9 @@ app.get('/weather', async (req, res) => {
             }
 
             const data = await WeatherFinder.GetWeatherData(req.query.lat, req.query.long);
+            if (!data) {
+                throw new Error(`Error retrieving weather data!`);
+            }
             console.log(`Attempt number ${numTries + 1} succeeded!`)
             return data;
         } catch (error) {
