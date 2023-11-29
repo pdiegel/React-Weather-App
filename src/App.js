@@ -10,7 +10,7 @@ import SunnyImg from './weather-backgrounds/sunny.gif';
 import MostlySunnyImg from './weather-backgrounds/mostly-sunny.gif';
 import PartlySunnyImg from './weather-backgrounds/partly-sunny.gif';
 
-const apiUrl = process.env.REACT_APP_API_URL || 'http://localhost:3001';
+const apiUrl = process.env.REACT_APP_API_URL || 'http://localhost:3001/';
 
 const WEATHER_BACKGROUNDS = {
     "Partly Cloudy": PartlyCloudyImg,
@@ -89,11 +89,8 @@ function App() {
     let dailyForecast = [];
 
     return (
-        <div className="App">
-            <header className="App-header">
-
-            </header>
-            <main style={{ backgroundImage: weather && weatherForecast && weatherForecast.shortForecast ? `url(${WEATHER_BACKGROUNDS[weatherForecast.shortForecast]})` : '' }}>
+        <div className="App" style={{ backgroundImage: weather && weatherForecast && weatherForecast.shortForecast ? `url(${WEATHER_BACKGROUNDS[weatherForecast.shortForecast]})` : '' }}>
+            <main>
                 <div className="weather-search">
                     <label htmlFor="location-input">Enter a location:<br /></label>
                     <input type="text" id="location-input" value={location} onChange={e => setLocation(e.target.value)} />
@@ -113,7 +110,11 @@ function App() {
                     }
                     )}
                 </div>
+
             </main>
+            <footer>
+                <p>Created by Philip Diegel</p>
+            </footer>
         </div>
     );
 }
