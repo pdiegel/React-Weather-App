@@ -10,12 +10,12 @@ app.use(cors());
 
 app.use(express.static(path.join(__dirname, 'build')));
 
-app.get('/', (req, res) => {
+app.get('', (req, res) => {
     res.send('Hello World!');
 }
 );
 
-app.get('/weather', async (req, res) => {
+app.get('weather', async (req, res) => {
     if (!req.query.lat || !req.query.long) {
         console.log("No latitude or longitude provided!");
         return;
@@ -28,7 +28,7 @@ app.get('/weather', async (req, res) => {
     res.status(200).send(response);
 });
 
-app.get('/location', async (req, res) => {
+app.get('location', async (req, res) => {
     const response = await WeatherFinder.GetLatLon(req.query.q);
     res.status(200).send(response);
 });
