@@ -4,6 +4,7 @@ const cors = require('cors');
 const app = express();
 const port = process.env.PORT || 3001;
 const WeatherFinder = require('./src/helpers/WeatherFinder');
+const logger = require('heroku-logger');
 
 app.use(cors());
 
@@ -31,5 +32,5 @@ app.get('/location', async (req, res) => {
 });
 
 app.listen(port, () => {
-    console.log(`Example app listening at http://localhost:${port}`);
+    logger.info(`Server is running on port ${port}`);
 });

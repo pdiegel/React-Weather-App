@@ -99,6 +99,7 @@ function App() {
                 </div>
                 <WeatherCard weather={weather} />
                 <div className='weather-forecasts-12h'>
+                    <h2>Daily Weather Forecast</h2>
                     {weather.forecasts.map((forecast, index) => {
                         dailyForecast.push(forecast);
                         if (index % 2 !== 0) {
