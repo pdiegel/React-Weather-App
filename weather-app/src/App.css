@@ -7,6 +7,7 @@
 main {
     background-size: cover;
     background-repeat: no-repeat;
+    background-position: center;
     min-height: 100vh;
     color: #333;
     padding: 20px;
@@ -40,4 +41,14 @@ main {
     background-color: lightblue;
     color: #333;
     cursor: pointer;
+}
+
+.weather-forecasts-12h {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    background-color: rgba(255, 255, 255, 0.3);
+    border-radius: 5px;
+    box-shadow: 0 0 5px rgba(0, 0, 0, 0.3);
+    padding: 10px 20px;
 }

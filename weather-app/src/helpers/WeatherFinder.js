@@ -41,7 +41,7 @@ async function GetWeatherData(lat, long) {
         return {
             location: `${location?.city}, ${location?.state}`,
             weather: weatherData,
-            forecast: FindClosestData(weatherForecast?.data?.properties?.periods, "startTime"),
+            forecasts: weatherForecast?.data?.properties?.periods,
         };
     } catch (err) {
         console.error(err.message);
@@ -58,7 +58,6 @@ function FindClosestData(dataPoints, timeProperty = "validTime") {
 
     let closestData = dataPoints[0];
     const dateNow = new Date();
-    console.log(dateNow);
 
     for (let data of dataPoints) {
         const dataDate = new Date(data[timeProperty].split("/")[0]);
@@ -68,8 +67,6 @@ function FindClosestData(dataPoints, timeProperty = "validTime") {
         }
     }
 
-    console.log("Closest Data: ");
-    console.log(closestData);
     return closestData;
 };
 

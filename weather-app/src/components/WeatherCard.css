@@ -2,7 +2,7 @@
 .weather-search {
     background-color: rgba(255, 255, 255, 0.3);
     border-radius: 5px;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.6);
+    box-shadow: 0 0 5px rgba(0, 0, 0, 0.3);
     max-width: 100%;
     margin: 20px auto;
     text-align: left;
@@ -38,4 +38,9 @@
 #rising::after {
     content: "▲";
     color: red;
+}
+
+.wind {
+    font-size: 2rem;
+    vertical-align: sub;
 }
