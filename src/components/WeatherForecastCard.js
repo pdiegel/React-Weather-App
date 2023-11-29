@@ -7,9 +7,6 @@ export default function WeatherForecastCard({ weatherForecast }) {
         return (<div></div>);
     }
 
-    console.log("new weather forecast card:");
-    console.log(weatherForecast);
-
     const earlyForecast = weatherForecast[0];
     const nightForecast = weatherForecast[1];
 
