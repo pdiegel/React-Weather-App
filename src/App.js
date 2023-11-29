@@ -10,6 +10,8 @@ import SunnyImg from './weather-backgrounds/sunny.gif';
 import MostlySunnyImg from './weather-backgrounds/mostly-sunny.gif';
 import PartlySunnyImg from './weather-backgrounds/partly-sunny.gif';
 
+const apiUrl = process.env.REACT_APP_API_URL || 'http://localhost:3001';
+
 const WEATHER_BACKGROUNDS = {
     "Partly Cloudy": PartlyCloudyImg,
     "Mostly Cloudy": MostlyCloudyImg,
@@ -40,7 +42,7 @@ function App() {
             return;
         }
 
-        fetch(`http://localhost:3001/weather?lat=${userPosition.latitude}&long=${userPosition.longitude}`)
+        fetch(`${apiUrl}/weather?lat=${userPosition.latitude}&long=${userPosition.longitude}`)
             .then(res => res.json())
             .then(data => {
                 console.log(`Fetching weather for: ${userPosition.latitude}, ${userPosition.longitude}`);
@@ -62,7 +64,7 @@ function App() {
             return;
         }
 
-        fetch(`http://localhost:3001/location?q=${location}`)
+        fetch(`${apiUrl}/location?q=${location}`)
             .then(res => res.json())
             .then(data => {
                 console.log(`Fetching location: ${location}`);
