@@ -6,8 +6,7 @@ const port = process.env.PORT || 3001;
 const WeatherFinder = require('./src/helpers/WeatherFinder');
 const logger = require('heroku-logger');
 
-const num_retries = 5;
-let num_tries = 0;
+const maxRetries = 5;
 
 app.use(cors());
 
@@ -19,31 +18,42 @@ app.get('/', (req, res) => {
 );
 
 app.get('/weather', async (req, res) => {
-    num_tries = 0;
+    let numTries = 0;
 
-    if (!req.query.lat || !req.query.long) {
-        console.log("No latitude or longitude provided!");
-        return;
-    }
-    else if (req.query.lat < 1 && req.query.long < 1) {
-        console.log("Invalid latitude or longitude provided!");
-        return;
-    }
-    WeatherFinder.GetWeatherData(req.query.lat, req.query.long)
-        .then(data => {
-            res.status(200).send(data);
-        })
-        .catch(_ => {
-            if (num_tries < num_retries) {
-                num_tries++;
-                WeatherFinder.GetWeatherData(req.query.lat, req.query.long)
-                    .then(data => {
-                        res.status(200).send(data);
-                    })
+
+    const fetchData = async () => {
+        try {
+            if (!req.query.lat || !req.query.long) {
+                console.log("No latitude or longitude provided!");
+                return null;
+            } else if (req.query.lat < 1 && req.query.long < 1) {
+                console.log("Invalid latitude or longitude provided!");
+                return null;
             }
-            else {
-                res.status(500).send("Error retrieving weather data!");
-            };
+
+            const data = await WeatherFinder.GetWeatherData(req.query.lat, req.query.long);
+            return data;
+        } catch (error) {
+            if (numTries < maxRetries) {
+                numTries++;
+                return fetchData(); // Retry the request
+            } else {
+                throw error; // Maximum retries reached, throw the error
+            }
+        }
+    };
+
+    fetchData()
+        .then(data => {
+            if (data !== null) {
+                res.status(200).send(data);
+            } else {
+                res.status(400).send("Invalid request parameters.");
+            }
+        })
+        .catch(error => {
+            console.error("Error retrieving weather data:", error);
+            res.status(500).send("Error retrieving weather data!");
         });
 
 });
