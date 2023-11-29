@@ -84,6 +84,8 @@ function App() {
         return (<div></div>);
     }
 
+    let dailyForecast = [];
+
     return (
         <div className="App">
             <header className="App-header">
@@ -97,8 +99,15 @@ function App() {
                 </div>
                 <WeatherCard weather={weather} />
                 <div className='weather-forecasts-12h'>
-                    {weather.forecasts.map(forecast =>
-                        <WeatherForecastCard key={forecast.number} weatherForecast={forecast} />
+                    {weather.forecasts.map((forecast, index) => {
+                        dailyForecast.push(forecast);
+                        if (index % 2 !== 0) {
+                            const completeForecast = dailyForecast;
+                            dailyForecast = [];
+                            return <WeatherForecastCard key={index} weatherForecast={completeForecast} />;
+                        }
+                        return null;
+                    }
                     )}
                 </div>
             </main>
