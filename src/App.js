@@ -42,7 +42,7 @@ function App() {
             return;
         }
 
-        fetch(`${apiUrl}/weather?lat=${userPosition.latitude}&long=${userPosition.longitude}`)
+        fetch(`${apiUrl}weather?lat=${userPosition.latitude}&long=${userPosition.longitude}`)
             .then(res => res.json())
             .then(data => {
                 console.log(`Fetching weather for: ${userPosition.latitude}, ${userPosition.longitude}`);
@@ -64,7 +64,7 @@ function App() {
             return;
         }
 
-        fetch(`${apiUrl}/location?q=${location}`)
+        fetch(`${apiUrl}location?q=${location}`)
             .then(res => res.json())
             .then(data => {
                 console.log(`Fetching location: ${location}`);
