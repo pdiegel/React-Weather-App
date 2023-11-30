@@ -34,3 +34,15 @@
     width: 50%;
     height: auto;
 }
+
+@media screen and (min-width: 700px) {
+    .weather-forecast-card {
+        width: 31%;
+    }
+}
+
+@media screen and (min-width: 1000px) {
+    .weather-forecast-card {
+        width: calc(100%/7 - 10px);
+    }
+}

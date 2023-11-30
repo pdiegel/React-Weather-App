@@ -56,7 +56,8 @@ function App() {
     }, [userPosition]);
 
 
-    const UpdateWeather = useCallback(() => {
+    const UpdateWeather = useCallback((e) => {
+        e.preventDefault();
         console.log("Updating weather!");
 
         if (!location.trim()) {
@@ -80,6 +81,12 @@ function App() {
             });
     }, [location, userPosition]);
 
+    const handleUpdateWatherOnEnter = (e) => {
+        if (e.key === 'Enter') {
+            UpdateWeather(e);
+        }
+    };
+
     const weatherForecast = FindClosestData(weather.forecasts, "startTime");
 
     if (!weather || !weather.weather || !weather.forecasts) {
@@ -93,7 +100,13 @@ function App() {
             <main>
                 <div className="weather-search">
                     <label htmlFor="location-input">Enter a location:<br /></label>
-                    <input type="text" id="location-input" value={location} onChange={e => setLocation(e.target.value)} />
+                    <input
+                        type="text"
+                        id="location-input"
+                        value={location}
+                        onChange={e => setLocation(e.target.value)}
+                        onKeyUp={handleUpdateWatherOnEnter}
+                    />
                     <button onClick={UpdateWeather}>Get Weather</button>
                 </div>
                 <WeatherCard weather={weather} />
@@ -113,7 +126,7 @@ function App() {
 
             </main>
             <footer>
-                <p>Created by Philip Diegel</p>
+                <p>Created by Philip Diegel, 2023</p>
             </footer>
         </div>
     );
