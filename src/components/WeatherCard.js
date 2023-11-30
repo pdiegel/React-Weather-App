@@ -29,14 +29,26 @@ const CONVERSION_FUNC_MAP = {
     // Kilometers per hour to miles per hour
     "km_h-1": (kmh) => { return (kmh * 0.621371).toFixed(1) + " mph" },
     "percent": (percent) => { return percent + "%" },
+    "mm": (mm) => { return mm + " mm" },
 
 }
 
-const DISPLAYABLE_WEATHER_PROPERTIES = ["dewpoint", "elevation"];
+const DISPLAYABLE_WEATHER_PROPERTIES = {
+    "dewpoint": "Dewpoint",
+    "elevation": "Elevation",
+    "relativeHumidity": "Humidity",
+    "probabilityOfPrecipitation": "Chance of Rain",
+    "visibility": "Visibility Distance",
+    "snowfallAmount": "Snowfall Amount",
+    "iceAccumulation": "Amount of Ice",
+    "probabilityOfThunder": "Chance of Thunder",
+    "probabilityOfHurricaneWinds": "Chance of Hurricane Winds",
+};
 
 export default function WeatherCard({ weather }) {
     const [userWeatherProperties, setUserWeatherProperties] = useState('');
     const [weatherSettingsAreVisible, setWeatherSettingsAreVisible] = useState(false);
+    const defaultProperties = { weatherProperty: '', display: true, identifier: '' };
 
     useEffect(() => {
         // Initialize or validate state from localStorage
@@ -60,9 +72,9 @@ export default function WeatherCard({ weather }) {
 
     const getDefaultWeatherProperties = () => {
         // Prepare default weather properties
-        const defaultProperties = {};
-        for (const property of DISPLAYABLE_WEATHER_PROPERTIES) {
-            defaultProperties[property] = { weatherProperty: property, display: true };
+
+        for (const property of Object.keys(DISPLAYABLE_WEATHER_PROPERTIES)) {
+            defaultProperties[property] = { weatherProperty: property, display: true, identifier: DISPLAYABLE_WEATHER_PROPERTIES[property] };
         }
         return defaultProperties;
     };
@@ -72,16 +84,17 @@ export default function WeatherCard({ weather }) {
         const validatedProperties = { ...storedProperties };
 
         // Ensure all displayable properties are present
-        for (const property of DISPLAYABLE_WEATHER_PROPERTIES) {
-            if (!(property in validatedProperties)) {
-                validatedProperties[property] = { weatherProperty: property, display: true };
+        for (const property of Object.keys(DISPLAYABLE_WEATHER_PROPERTIES)) {
+            if (!(property in validatedProperties) || Object.keys(validatedProperties) !== Object.keys(DISPLAYABLE_WEATHER_PROPERTIES)) {
+                validatedProperties[property] = { weatherProperty: property, display: true, identifier: DISPLAYABLE_WEATHER_PROPERTIES[property] };
                 propertiesUpdated = true;
             }
+
         }
 
         // Remove properties that are no longer displayable
         for (const property in validatedProperties) {
-            if (!DISPLAYABLE_WEATHER_PROPERTIES.includes(property)) {
+            if (!Object.keys(DISPLAYABLE_WEATHER_PROPERTIES).includes(property)) {
                 delete validatedProperties[property];
                 propertiesUpdated = true;
             }
@@ -103,8 +116,9 @@ export default function WeatherCard({ weather }) {
             return <p>Loading..</p>;
         }
         const settings = [];
-        for (const property of DISPLAYABLE_WEATHER_PROPERTIES) {
-            settings.push(<p key={property}>{toSentenceCase(property)} <input type='Checkbox' onChange={updateWeatherPropertySetting} value={property} checked={userWeatherProperties[property].display} /></p>);
+        for (const property of Object.keys(userWeatherProperties)) {
+            const propertyIdentifier = userWeatherProperties[property].identifier;
+            settings.push(<p key={property}>{propertyIdentifier} <input type='Checkbox' onChange={updateWeatherPropertySetting} value={property} checked={userWeatherProperties[property].display} /></p>);
         }
         return settings;
     };
@@ -125,7 +139,12 @@ export default function WeatherCard({ weather }) {
             if (!conversionUnit) {
                 conversionUnit = weather.weather[property].unitCode;
             }
+            if (!conversionUnit) {
+                return 0;
+            }
+
             conversionUnit = conversionUnit.split(":")[1];
+
 
             const conversionFunc = CONVERSION_FUNC_MAP[conversionUnit];
 
@@ -146,15 +165,17 @@ export default function WeatherCard({ weather }) {
         return Object.keys(userWeatherProperties).map((property, index) => {
             const displayProperty = userWeatherProperties[property].display;
             if (displayProperty) {
-                return <p key={index}>{toSentenceCase(property)}: {getWeatherPropertyData(userWeatherProperties[property].weatherProperty)}</p>;
+                const propertyIdentifier = userWeatherProperties[property].identifier;
+                return <p key={index}>{propertyIdentifier}: {getWeatherPropertyData(userWeatherProperties[property].weatherProperty)}</p>;
             }
             return null;
         });
     };
 
-    const toSentenceCase = (str) => {
-        return str.charAt(0).toUpperCase() + str.slice(1).toLowerCase();
-    };
+    // Not currently used
+    // const toSentenceCase = (str) => {
+    //     return str.charAt(0).toUpperCase() + str.slice(1).toLowerCase();
+    // };
 
     const weatherData = weather.weather;
     const weatherForecast = FindClosestData(weather.forecasts, "startTime");
