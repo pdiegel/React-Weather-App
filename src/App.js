@@ -9,6 +9,7 @@ import HeavyRainImg from './weather-backgrounds/heavy-rain.gif';
 import SunnyImg from './weather-backgrounds/sunny.gif';
 import MostlySunnyImg from './weather-backgrounds/mostly-sunny.gif';
 import PartlySunnyImg from './weather-backgrounds/partly-sunny.gif';
+import ScatteredSnowShowersImg from './weather-backgrounds/scattered-snow-showers.gif';
 
 const apiUrl = process.env.REACT_APP_API_URL || 'http://localhost:3001/';
 
@@ -19,6 +20,8 @@ const WEATHER_BACKGROUNDS = {
     "Sunny": SunnyImg,
     "Mostly Sunny": MostlySunnyImg,
     "Partly Sunny": PartlySunnyImg,
+    "Mostly Cloudy then Scattered Snow Showers": ScatteredSnowShowersImg,
+    "Scattered Snow Showers": ScatteredSnowShowersImg,
 }
 
 function App() {
