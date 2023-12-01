@@ -7,7 +7,7 @@
 
 .weather-forecast-card {
     background-color: rgba(255, 255, 255, 0.3);
-    width: 31%;
+    width: calc(100%/2 - 5px);
     margin: 10px 0;
     text-align: center;
 }
@@ -35,9 +35,9 @@
     height: auto;
 }
 
-@media screen and (min-width: 700px) {
+@media screen and (min-width: 450px) {
     .weather-forecast-card {
-        width: 31%;
+        width: calc(100%/3 - 10px);
     }
 }
 
