@@ -48,7 +48,7 @@ const DISPLAYABLE_WEATHER_PROPERTIES = {
 export default function WeatherCard({ weather }) {
     const [userWeatherProperties, setUserWeatherProperties] = useState('');
     const [weatherSettingsAreVisible, setWeatherSettingsAreVisible] = useState(false);
-    const defaultProperties = { weatherProperty: '', display: true, identifier: '' };
+
 
     useEffect(() => {
         // Initialize or validate state from localStorage
@@ -57,56 +57,65 @@ export default function WeatherCard({ weather }) {
 
         if (storedWeatherProperties) {
             // Validate stored properties
-            weatherProperties = validateAndCorrectStoredProperties(JSON.parse(storedWeatherProperties));
+            weatherProperties = verifyAndCorrectWeatherProperties(JSON.parse(storedWeatherProperties));
         } else {
+
             // Use default properties if nothing is stored
             weatherProperties = getDefaultWeatherProperties();
         }
 
+        window.localStorage.setItem('userWeatherProperties', JSON.stringify(weatherProperties));
         setUserWeatherProperties(weatherProperties);
     }, []);
 
     if (!weather || !weather.weather || !weather.forecasts) {
-        return (<div></div>);
+        return (<div>Loading Weather..</div>);
     };
 
     const getDefaultWeatherProperties = () => {
-        // Prepare default weather properties
-
-        for (const property of Object.keys(DISPLAYABLE_WEATHER_PROPERTIES)) {
-            defaultProperties[property] = { weatherProperty: property, display: true, identifier: DISPLAYABLE_WEATHER_PROPERTIES[property] };
+        // Generate default weather properties
+        const defaultWeatherProperties = {};
+        for (const weatherProperty in DISPLAYABLE_WEATHER_PROPERTIES) {
+            defaultWeatherProperties[weatherProperty] = {
+                weatherProperty: weatherProperty,
+                display: true,
+                identifier: DISPLAYABLE_WEATHER_PROPERTIES[weatherProperty]
+            };
         }
-        return defaultProperties;
+        return defaultWeatherProperties;
     };
 
-    const validateAndCorrectStoredProperties = (storedProperties) => {
-        let propertiesUpdated = false;
-        const validatedProperties = { ...storedProperties };
 
-        // Ensure all displayable properties are present
-        for (const property of Object.keys(DISPLAYABLE_WEATHER_PROPERTIES)) {
-            if (!(property in validatedProperties) || Object.keys(validatedProperties) !== Object.keys(DISPLAYABLE_WEATHER_PROPERTIES)) {
-                validatedProperties[property] = { weatherProperty: property, display: true, identifier: DISPLAYABLE_WEATHER_PROPERTIES[property] };
-                propertiesUpdated = true;
+    const verifyAndCorrectWeatherProperties = (weatherProperties) => {
+        // Ensure the data in local storage matches the DISPLAYABLE_WEATHER_PROPERTIES constant
+
+        for (const weatherKey in DISPLAYABLE_WEATHER_PROPERTIES) {
+            if (!Object.keys(weatherProperties).includes(weatherKey)) {
+                // Add any keys that are missing
+                weatherProperties[weatherKey] = {
+                    weatherProperty: weatherKey,
+                    display: true,
+                    identifier: DISPLAYABLE_WEATHER_PROPERTIES[weatherKey]
+                };
             }
+            else {
+                // Update weatherKey identifiers
+                const expectedIdentifier = DISPLAYABLE_WEATHER_PROPERTIES[weatherKey];
 
-        }
+                weatherProperties[weatherKey].identifier = expectedIdentifier;
+            };
+        };
 
-        // Remove properties that are no longer displayable
-        for (const property in validatedProperties) {
-            if (!Object.keys(DISPLAYABLE_WEATHER_PROPERTIES).includes(property)) {
-                delete validatedProperties[property];
-                propertiesUpdated = true;
+        // Remove any keys in local storage that are not in DISPLAYABLE_WEATHER_PROPERTIES
+        for (const weatherKey in weatherProperties) {
+            if (!Object.keys(DISPLAYABLE_WEATHER_PROPERTIES).includes(weatherKey)) {
+                delete weatherProperties[weatherKey]
             }
-        }
+        };
 
-        // Update localStorage if necessary
-        if (propertiesUpdated) {
-            window.localStorage.setItem('userWeatherProperties', JSON.stringify(validatedProperties));
-        }
-
-        return validatedProperties;
+        return weatherProperties;
     };
+
 
     const displayWeatherSettings = () => {
         // Displays the weather settings checkboxes

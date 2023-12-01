@@ -3,13 +3,13 @@ import WeatherCard from './components/WeatherCard';
 import WeatherForecastCard from './components/WeatherForecastCard';
 import { useState, useEffect, useCallback } from 'react';
 import { FindClosestData } from './helpers/WeatherFinder';
-import PartlyCloudyImg from './weather-backgrounds/partly-cloudy.gif';
-import MostlyCloudyImg from './weather-backgrounds/mostly-cloudy.gif';
-import HeavyRainImg from './weather-backgrounds/heavy-rain.gif';
-import SunnyImg from './weather-backgrounds/sunny.gif';
-import MostlySunnyImg from './weather-backgrounds/mostly-sunny.gif';
-import PartlySunnyImg from './weather-backgrounds/partly-sunny.gif';
-import ScatteredSnowShowersImg from './weather-backgrounds/scattered-snow-showers.gif';
+import PartlyCloudyImg from './weather-backgrounds/partly-cloudy.jpg';
+import MostlyCloudyImg from './weather-backgrounds/mostly-cloudy.jpg';
+import HeavyRainImg from './weather-backgrounds/heavy-rain.jpg';
+import SunnyImg from './weather-backgrounds/sunny.jpg';
+import MostlySunnyImg from './weather-backgrounds/mostly-sunny.jpg';
+import PartlySunnyImg from './weather-backgrounds/partly-sunny.jpg';
+import ScatteredSnowShowersImg from './weather-backgrounds/scattered-snow-showers.jpg';
 
 const apiUrl = process.env.REACT_APP_API_URL || 'http://localhost:3001/';
 
@@ -22,6 +22,7 @@ const WEATHER_BACKGROUNDS = {
     "Partly Sunny": PartlySunnyImg,
     "Mostly Cloudy then Scattered Snow Showers": ScatteredSnowShowersImg,
     "Scattered Snow Showers": ScatteredSnowShowersImg,
+    "Rain then Drizzle Likely": HeavyRainImg,
 }
 
 function App() {
@@ -114,7 +115,7 @@ function App() {
                 </div>
                 <WeatherCard weather={weather} />
                 <div className='weather-forecasts-12h'>
-                    <h2>Daily Weather Forecast</h2>
+                    <h2>Daily Forecasts</h2>
                     {weather.forecasts.map((forecast, index) => {
                         dailyForecast.push(forecast);
                         if (index % 2 !== 0) {
