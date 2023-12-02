@@ -6,6 +6,7 @@ import { FindClosestData } from './helpers/WeatherFinder';
 import PartlyCloudyImg from './weather-backgrounds/partly-cloudy.jpg';
 import MostlyCloudyImg from './weather-backgrounds/mostly-cloudy.jpg';
 import HeavyRainImg from './weather-backgrounds/heavy-rain.jpg';
+import LightRainImg from './weather-backgrounds/light-rain.jpg';
 import SunnyImg from './weather-backgrounds/sunny.jpg';
 import MostlySunnyImg from './weather-backgrounds/mostly-sunny.jpg';
 import PartlySunnyImg from './weather-backgrounds/partly-sunny.jpg';
@@ -23,6 +24,9 @@ const WEATHER_BACKGROUNDS = {
     "Mostly Cloudy then Scattered Snow Showers": ScatteredSnowShowersImg,
     "Scattered Snow Showers": ScatteredSnowShowersImg,
     "Rain then Drizzle Likely": HeavyRainImg,
+    "Mostly Cloudy then Slight Chance Drizzle": MostlyCloudyImg,
+    "Rain Likely": HeavyRainImg,
+    "Chance Light Rain": LightRainImg,
 }
 
 function App() {

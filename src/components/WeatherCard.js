@@ -38,6 +38,7 @@ const DISPLAYABLE_WEATHER_PROPERTIES = {
     "elevation": "Elevation",
     "relativeHumidity": "Humidity",
     "probabilityOfPrecipitation": "Chance of Rain",
+    "skyCover": "Cloud Sky Coverage",
     "visibility": "Visibility Distance",
     "snowfallAmount": "Snowfall Amount",
     "iceAccumulation": "Amount of Ice",
