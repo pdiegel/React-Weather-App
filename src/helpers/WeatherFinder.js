@@ -70,16 +70,5 @@ function FindClosestData(dataPoints, timeProperty = "validTime") {
     return closestData;
 };
 
-function ConvertTemperature(temperature, desiredUnit) {
-    if (desiredUnit === "F") {
-        // Celsius to Fahrenheit
-        return temperature * (9 / 5) + 32;
-    }
-    else {
-        // Fahrenheit to Celsius
-        return (temperature - 32) * 5 / 9;
-    };
-}
-
-module.exports = { GetLatLon, GetWeatherData, FindClosestData, ConvertTemperature };
+module.exports = { GetLatLon, GetWeatherData, FindClosestData };
 

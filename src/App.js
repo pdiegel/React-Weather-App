@@ -11,6 +11,7 @@ import SunnyImg from './weather-backgrounds/sunny.jpg';
 import MostlySunnyImg from './weather-backgrounds/mostly-sunny.jpg';
 import PartlySunnyImg from './weather-backgrounds/partly-sunny.jpg';
 import ScatteredSnowShowersImg from './weather-backgrounds/scattered-snow-showers.jpg';
+import IndecisiveWeatherImg from './weather-backgrounds/indecisive.jpg';
 
 const apiUrl = process.env.REACT_APP_API_URL || 'http://localhost:3001/';
 
@@ -27,6 +28,7 @@ const WEATHER_BACKGROUNDS = {
     "Mostly Cloudy then Slight Chance Drizzle": MostlyCloudyImg,
     "Rain Likely": HeavyRainImg,
     "Chance Light Rain": LightRainImg,
+    "Unknown": IndecisiveWeatherImg,
 }
 
 function App() {
@@ -104,7 +106,7 @@ function App() {
     let dailyForecast = [];
 
     return (
-        <div className="App" style={{ backgroundImage: weather && weatherForecast && weatherForecast.shortForecast ? `url(${WEATHER_BACKGROUNDS[weatherForecast.shortForecast]})` : '' }}>
+        <div className="App" style={{ backgroundImage: weather && weatherForecast && weatherForecast.shortForecast && Object.keys(WEATHER_BACKGROUNDS).includes(weatherForecast.shortForecast) ? `url(${WEATHER_BACKGROUNDS[weatherForecast.shortForecast]})` : `url(${WEATHER_BACKGROUNDS["Unknown"]})` }}>
             <main>
                 <div className="weather-search">
                     <label htmlFor="location-input">Enter a location:<br /></label>

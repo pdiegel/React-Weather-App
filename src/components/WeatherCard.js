@@ -1,5 +1,5 @@
 import './WeatherCard.css';
-import { FindClosestData, ConvertTemperature } from '../helpers/WeatherFinder';
+import { FindClosestData } from '../helpers/WeatherFinder';
 import { useState, useEffect } from 'react';
 
 const WEATHER_DIRECTIONS = {
@@ -23,7 +23,7 @@ const WEATHER_DIRECTIONS = {
 
 const CONVERSION_FUNC_MAP = {
     // Celsius to Fahrenheit
-    "degC": (temp) => { return ((temp) * 9 / 5 + 32) + "°" },
+    "degC": (temp) => { return (temp * 9 / 5 + 32) + "°" },
     // Meters to feet
     "m": (meters) => { return (meters * 3.28084).toFixed(1) + " ft." },
     // Kilometers per hour to miles per hour
@@ -189,16 +189,24 @@ export default function WeatherCard({ weather }) {
 
     const weatherData = weather.weather;
     const weatherForecast = FindClosestData(weather.forecasts, "startTime");
-    const minTemperature = ConvertTemperature(FindClosestData(weatherData?.minTemperature?.values).value, "F");
-    const maxTemperature = ConvertTemperature(FindClosestData(weatherData?.maxTemperature?.values).value, "F");
-    const currentTemperature = ConvertTemperature(FindClosestData(weatherData?.apparentTemperature?.values).value, "F");
+    const minTemperature = CONVERSION_FUNC_MAP["degC"](FindClosestData(weatherData?.minTemperature?.values).value);
+    const maxTemperature = CONVERSION_FUNC_MAP["degC"](FindClosestData(weatherData?.maxTemperature?.values).value);
+    let currentTemperature = CONVERSION_FUNC_MAP["degC"](FindClosestData(weatherData?.apparentTemperature?.values).value);
+
+    // Sometimes the current temperature is outside of the min/max range for the day (not sure why)
+    // Might need to caluclate min and max manually and not use these if statements
+    if (currentTemperature > maxTemperature) {
+        currentTemperature = maxTemperature;
+    } else if (currentTemperature < minTemperature) {
+        currentTemperature = minTemperature;
+    }
 
     return (
         <div className="weather-card">
             <h2 >{weather.location}</h2>
             <h3>{weatherForecast.name}</h3>
-            <h3 className="temperature" id={`${weatherForecast.temperatureTrend}`}>{currentTemperature}° F</h3>
-            <p>High: {maxTemperature}° <br /> Low: {minTemperature}°</p>
+            <h3 className="temperature" id={`${weatherForecast.temperatureTrend}`}>{currentTemperature} F</h3>
+            <p>High: {maxTemperature} <br /> Low: {minTemperature}</p>
 
             <p>Wind: {weatherForecast.windSpeed} <span className='wind'>{WEATHER_DIRECTIONS[weatherForecast.windDirection]}</span></p>
             <p>{weatherForecast.detailedForecast}</p>
